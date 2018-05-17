@@ -1,16 +1,16 @@
 #include "screenluis.h"
 
-Screen::Screen(){
+screen::screen(){
   numero_ = "1000";
-  position_ = 0;
-  entered_ = false;
-  subentered_ = false;
+  posicion_ = 0;
+  entrada_ = false;
+  subentrada_ = false;
 }
 
 /*
 * Boot the screen and write the RincónIngenieril brand
 */
-void Screen::set(){
+void screen::set(){
 
   TFT screen = TFT(cs, dc, rst);
   screen_ = &screen;
@@ -28,7 +28,7 @@ void Screen::set(){
 /*
 *   Show the menu options
 */
-void Screen::menu(){
+void screen::menu(){
   screen_->fill(0, 0, 0);
   screen_->stroke(0, 0, 0);
   screen_->rect(0, 18, 128, 142);
@@ -38,21 +38,21 @@ void Screen::menu(){
   screen_->text("Time", 15, 50);
   screen_->text("Loop", 15, 70);
 
-  this->updateArrow();
+  this->actualizarFlecha();
 }
 
 /*
 *   This screen is shown while the motor is moving
 */
-void Screen::working(){
-  subposition_ = 0;
+void screen::trabajando(){
+  subposicion_ = 0;
 
   screen_->fill(0, 0, 0);
   screen_->stroke(0, 0, 0);
   screen_->rect(0, 18, 128, 142);
   screen_->stroke(255, 255, 255);
   screen_->setTextSize(2);
-  screen_->text("Working", 15, 30);
+  screen_->text("trabajando", 15, 30);
 
   screen_->setTextSize(1);
   screen_->text("Press to stop", 15, 60);
@@ -62,7 +62,7 @@ void Screen::working(){
 *   This screen guide the user in order to
 *   set the next position of the slider
 */
-void Screen::byPosition(int position){
+void screen::porPosicion(int position){
   //Clear menu
   screen_->fill(0, 0, 0);
   screen_->stroke(0, 0, 0);
@@ -72,26 +72,26 @@ void Screen::byPosition(int position){
   screen_->setTextSize(2);
   screen_->text("Position", 15, 30);
 
-  //Screen animation, it depends on subposition_ value
-  switch (subposition_) {
+  //screen animation, it depends on subposicion_ value
+  switch (subposicion_) {
     case 0:   //The position number is selected
-      this->backButton(false);
-      this->startButton(false);
+      this->atrasBoton(false);
+      this->inicoBoton(false);
       screen_->fill(255,255,255);
 
-      if (!subentered_) screen_->stroke(0, 0, 0);
+      if (!subentrada_) screen_->stroke(0, 0, 0);
       else screen_->stroke(255, 0, 0);
 
       break;
     case 1:   //The back button is selected
-      this->backButton(true);
-      this->startButton(false);
+      this->atrasBoton(true);
+      this->inicoBoton(false);
       screen_->noFill();
       screen_->stroke(255, 255, 255);
       break;
     case 2:   //The start button is selected
-      this->backButton(false);
-      this->startButton(true);
+      this->atrasBoton(false);
+      this->inicoBoton(true);
       screen_->noFill();
       screen_->stroke(255, 255, 255);
       break;
@@ -109,7 +109,7 @@ void Screen::byPosition(int position){
 *   to set the time with will be used
 *   for the complete movement
 */
-void Screen::byTime(long int timing){
+void screen::porTiempo(long int timing){
   //Clear menu
   screen_->fill(0, 0, 0);
   screen_->stroke(0, 0, 0);
@@ -119,26 +119,26 @@ void Screen::byTime(long int timing){
   screen_->setTextSize(2);
   screen_->text("Time", 15, 30);
 
-  //Screen animation, it depends on subposition_ value
-  switch (subposition_) {
+  //screen animation, it depends on subposicion_ value
+  switch (subposicion_) {
     case 0:   //The time value is selected
-      this->backButton(false);
-      this->startButton(false);
+      this->atrasBoton(false);
+      this->inicoBoton(false);
       screen_->fill(255,255,255);
 
-      if (!subentered_) screen_->stroke(0, 0, 0);
+      if (!subentrada_) screen_->stroke(0, 0, 0);
       else screen_->stroke(255, 0, 0);
 
       break;
     case 1:   //The back button is selected
-      this->backButton(true);
-      this->startButton(false);
+      this->atrasBoton(true);
+      this->inicoBoton(false);
       screen_->noFill();
       screen_->stroke(255, 255, 255);
       break;
     case 2:   //The start button is selected
-      this->backButton(false);
-      this->startButton(true);
+      this->atrasBoton(false);
+      this->inicoBoton(true);
       screen_->noFill();
       screen_->stroke(255, 255, 255);
       break;
@@ -152,7 +152,7 @@ void Screen::byTime(long int timing){
 
 }
 
-void Screen::byLoop(bool state){
+void screen::porCiclo(bool state){
   //Clear menu
   screen_->fill(0, 0, 0);
   screen_->stroke(0, 0, 0);
@@ -163,25 +163,25 @@ void Screen::byLoop(bool state){
   screen_->text("Loop", 15, 30);
 
   //Get and print the position value
-  switch (subposition_) {
+  switch (subposicion_) {
     case 0:   //The laps value is selected
-      this->backButton(false);
-      this->startButton(false);
+      this->atrasBoton(false);
+      this->inicoBoton(false);
       screen_->fill(255,255,255);
 
-      if (!subentered_) screen_->stroke(0, 0, 0);
+      if (!subentrada_) screen_->stroke(0, 0, 0);
       else screen_->stroke(255, 0, 0);
 
       break;
     case 1:   //The back button is selected
-      this->backButton(true);
-      this->startButton(false);
+      this->atrasBoton(true);
+      this->inicoBoton(false);
       screen_->noFill();
       screen_->stroke(255, 255, 255);
       break;
     case 2:   //The start button is selected
-      this->backButton(false);
-      this->startButton(true);
+      this->atrasBoton(false);
+      this->inicoBoton(true);
       screen_->noFill();
       screen_->stroke(255, 255, 255);
       break;
@@ -195,27 +195,27 @@ void Screen::byLoop(bool state){
 
 }
 
-int Screen::addPosition(){
-    position_++;
-    if(position_ > 2)  position_ = 0;
+int screen::sumaPosicion(){
+    posicion_++;
+    if(posicion_ > 2)  posicion_ = 0;
 
 }
 
-int Screen::substractPosition(){
-    position_--;
-    if(position_ < 0)  position_ = 2;
+int screen::restaPosicion(){
+    posicion_--;
+    if(posicion_ < 0)  posicion_ = 2;
 
 }
 
-int Screen::addSubPosition(){
-    subposition_++;
-    if(subposition_ > 2)  subposition_ = 0;
+int screen::sumaSubPosicion(){
+    subposicion_++;
+    if(subposicion_ > 2)  subposicion_ = 0;
 
 }
 
-int Screen::substractSubPosition(){
-    subposition_--;
-    if(subposition_ < 0)  subposition_ = 2;
+int screen::restaSubPosicion(){
+    subposicion_--;
+    if(subposicion_ < 0)  subposicion_ = 2;
 
   }
 
@@ -223,8 +223,8 @@ int Screen::substractSubPosition(){
 *   This method update the arrow
 *   position in the menu screen
 */
-void Screen::updateArrow(){
-  switch(position_){
+void screen::actualizarFlecha(){
+  switch(posicion_){
     case 0:
       screen_->stroke(0, 0, 0);
       screen_->text(">", 0, 50);
@@ -252,7 +252,7 @@ void Screen::updateArrow(){
 /*
 *   This method draw the back button
 */
-void Screen::backButton(bool fill){
+void screen::atrasBoton(bool fill){
   if(fill){
     screen_->fill(255,255,255);
     screen_->stroke(0, 0, 0);
@@ -269,7 +269,7 @@ void Screen::backButton(bool fill){
 /*
 *   This method draw the start button
 */
-void Screen::startButton(bool fill){
+void screen::inicoBoton(bool fill){
 
   if(fill){
     screen_->fill(255,255,255);
@@ -285,30 +285,30 @@ void Screen::startButton(bool fill){
 
 }
 
-void Screen::setEntered(bool entered){
-    entered_ = entered;
+void screen::fijarEntrada(bool entered){
+    entrada_ = entered;
 }
 
-bool Screen::getEntered(){
-  return entered_;
+bool screen::tomarEntrada(){
+  return entrada_;
 }
 
-void Screen::setSubEntered(bool entered){
-    subentered_ = entered;
+void screen::fijarSubEntrada(bool entered){
+    subentrada_ = entered;
 }
 
-bool Screen::getSubEntered(){
-  return subentered_;
+bool screen::tomarSubEntrada(){
+  return subentrada_;
 }
 
-int Screen::getPosition(){
-  return position_;
+int screen::tomarPosicion(){
+  return posicion_;
 }
 
-int Screen::getSubPosition(){
-  return subposition_;
+int screen::tomarSubPosicion(){
+  return subposicion_;
 }
 
-void Screen::setSubPosition(int position){
-  subposition_ = position;
+void screen::fijarSubPosicion(int position){
+  subposicion_ = position;
 }

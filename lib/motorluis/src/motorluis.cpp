@@ -4,7 +4,7 @@ Motor::Motor(int stepPin, int dirPin, int enablePin){
   stepPin_ = stepPin;
   dirPin_ = dirPin;
   enablePin_ = enablePin;
-  position_ = 0;
+  posicion_ = 0;
   target_ = 0;
 
   //From EEPROM in the future
@@ -16,7 +16,7 @@ Motor::Motor(int stepPin, int dirPin, int enablePin){
   //
 
   stepsDistance_ = length_ * stepBymm_;
-  working_ = false;
+  trabajando_ = false;
   finished_ = false;
   direction_ = true;
   loop_ = false;
@@ -34,11 +34,11 @@ Motor::Motor(int stepPin, int dirPin, int enablePin){
 void Motor::move(){
 
   //If it is'n necesary, do not move the motor
-  if(working_ && position_ != target_){
+  if(trabajando_ && posicion_ != target_){
     //Enable motor
     digitalWrite(enablePin_, LOW);
 
-    //Set directión
+    //set directión
     if(direction_)
       digitalWrite(dirPin_, HIGH);
     else
@@ -55,25 +55,25 @@ void Motor::move(){
     //If we are at the end
     if(steps_ == 0){
       //Update the current position
-      position_ = target_;
+      posicion_ = target_;
       //If we are in loop mode
       if(loop_){
-        if(position_ == 240){
+        if(posicion_ == 240){
           this->setTime(time_, 0);
           loop_ = true;
         }
-        else if (position_ == 0){
+        else if (posicion_ == 0){
           this->setTime(time_, 240);
           loop_ = true;
         }
         else{
-          working_ = false;
+          trabajando_ = false;
           finished_ = true;
         }
       }
       //If we are NOT in loop position, it has finished the movement
       else {
-        working_ = false;
+        trabajando_ = false;
         finished_ = true;
       }
     }
@@ -84,12 +84,12 @@ void Motor::move(){
   }
 }
 
-int Motor::getPosition(){
-  return position_;
+int Motor::tomarPosicion(){
+  return posicion_;
 }
 
-void Motor::setPosition(int position){
-  position_ = position;
+void Motor::fijarPosicion(int position){
+  posicion_ = position;
 }
 
 int Motor::getTarget(){
@@ -102,7 +102,7 @@ int Motor::getTarget(){
 void Motor::setTarget(int target){
   stepTime_ = 600;
   target_ = target;
-  steps_ = (target_ - position_)*stepBymm_;
+  steps_ = (target_ - posicion_)*stepBymm_;
 
   //Change direction if necccesary
   if(steps_ < 0){
@@ -123,12 +123,12 @@ void Motor::setStepTime(int stepTime){
   stepTime_ = stepTime;
 }
 
-bool Motor::getWorking(){
-  return working_;
+bool Motor::gettrabajando(){
+  return trabajando_;
 }
 
-void Motor::setWorking(bool working){
-  working_ = working;
+void Motor::settrabajando(bool trabajando){
+  trabajando_ = trabajando;
 }
 
 long int Motor::getStepsDistance(){
@@ -147,7 +147,7 @@ void Motor::setTime(unsigned long int timming, int target){
   stepTime_ = (time_ * 1000000) / stepsDistance_;
 
   target_ = target;
-  steps_ = (target_ - position_)*stepBymm_;
+  steps_ = (target_ - posicion_)*stepBymm_;
 
   //Change direction if necesary
   if(steps_ < 0){

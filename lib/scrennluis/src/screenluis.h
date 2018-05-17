@@ -5,36 +5,36 @@
 #define dc   9
 #define rst  8
 
-class Screen{
+class screen{
   public:
-    Screen();
+    screen();
     void set();
-    void welcome();
-    int getPosition();
-    void setPosition(int position);
-    int getSubPosition();
-    void setSubPosition(int position);
+//    void welcome();
+    int tomarPosicion();
+    void fijarPosicion(int position);
+    int tomarSubPosicion();
+    void fijarSubPosicion(int position);
     void menu();
-    void working();
-    void updateArrow();
-    void backButton(bool fill);
-    void startButton(bool fill);
-    int addPosition();
-    int substractPosition();
-    int addSubPosition();
-    int substractSubPosition();
-    void setEntered(bool entered);
-    bool getEntered();
-    void setSubEntered(bool entered);
-    bool getSubEntered();
-    void byPosition(int position);
-    void byTime(long int timing);
-    void byLoop(bool state);
+    void trabajando();
+    void actualizarFlecha();
+    void atrasBoton(bool fill);
+    void inicoBoton(bool fill);
+    int sumaPosicion();
+    int restaPosicion();
+    int sumaSubPosicion();
+    int restaSubPosicion();
+    void fijarEntrada(bool entered);
+    bool tomarEntrada();
+    void fijarSubEntrada(bool entered);
+    bool tomarSubEntrada();
+    void porPosicion(int position);
+    void porTiempo(long int timing);
+    void porCiclo(bool state);
   private:
-    int position_;
-    bool entered_;
-    int subposition_;
-    bool subentered_;
+    int posicion_;
+    bool entrada_;
+    int subposicion_;
+    bool subentrada_;
     TFT* screen_;
     char* numero_;
 };

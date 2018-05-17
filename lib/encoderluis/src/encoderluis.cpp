@@ -1,6 +1,6 @@
 #include "encoderluis.h"
 
-Encoder::Encoder(Screen* screen, Motor* motor){
+Encoder::Encoder(screen* screen, Motor* motor){
   screen_ = screen;
   motor_ = motor;
   changeTime_ = 20;
@@ -9,49 +9,49 @@ Encoder::Encoder(Screen* screen, Motor* motor){
 /*
 *   When the rotatory enconder go clock-wise
 */
-void Encoder::clockWise(){
+void Encoder::giroDerecha(){
   //Timeout to prevent debounce on the rotatory encoder
 //  if((millis() - time_) > changeTime_)
 //  {
 //    time_ = millis();
-    // If we are in the menu (getEntered == false),
+    // If we are in the menu (tomarEntrada == false),
     // update the position of the arrow
-    if(digitalRead(3) == HIGH && screen_->getEntered() == false){
-      screen_->addPosition();
-      screen_->updateArrow();
+    if(digitalRead(3) == HIGH && screen_->tomarEntrada() == false){
+      screen_->sumaPosicion();
+      screen_->actualizarFlecha();
     }
-    //If we are inside a submenu (getEntered == true)
-    else if(digitalRead(3) == HIGH && screen_->getEntered() == true){
-      //If we are NOT trying to change the number value (getSubEntered == false)
-      if(screen_->getSubEntered() == false)
-        screen_->addSubPosition();
+    //If we are inside a submenu (tomarEntrada == true)
+    else if(digitalRead(3) == HIGH && screen_->tomarEntrada() == true){
+      //If we are NOT trying to change the number value (tomarSubEntrada == false)
+      if(screen_->tomarSubEntrada() == false)
+        screen_->sumaSubPosicion();
 
       //Draw the submenu
-      switch (screen_->getPosition()) {
+      switch (screen_->tomarPosicion()) {
         case 0:
           //If we are changing the number value
-          if(screen_->getSubEntered() == true){
+          if(screen_->tomarSubEntrada() == true){
             if(motor_->getTarget() < motor_->getlength())
               motor_->setTarget(motor_->getTarget() + 10);
             else
               motor_->setTarget(0);
           }
-          //Draw byPosition submenu and update the position number
-          screen_->byPosition(motor_->getTarget());
+          //Draw porPosicion submenu and update the position number
+          screen_->porPosicion(motor_->getTarget());
           break;
         case 1:
           //If we are changing the number value
-          if(screen_->getSubEntered() == true)
+          if(screen_->tomarSubEntrada() == true)
             motor_->setTime(motor_->getTime() + 10, 240);
-          //Draw byTime submenu
-          screen_->byTime(motor_->getTime());
+          //Draw porTiempo submenu
+          screen_->porTiempo(motor_->getTime());
           break;
         case 2:
           //If we are changing the value
-          if(screen_->getSubEntered() == true)
+          if(screen_->tomarSubEntrada() == true)
             motor_->setLoop(!motor_->getLoop());
-          //Draw byLoop menu
-          screen_->byLoop(motor_->getLoop());
+          //Draw porCiclo menu
+          screen_->porCiclo(motor_->getLoop());
           break;
       }
     }
@@ -61,51 +61,51 @@ void Encoder::clockWise(){
 /*
 *   When the rotatory encoder go counter-clock-wise
 */
-void Encoder::counterClockWise()
+void Encoder::giroIzquierda()
 {
   //Time out to prevent debounce on the rotatory encoder
 //  if((millis() - time_) > changeTime_)
 //  {
 //    time_ = millis();
-    // If we are in the menu (getEntered == false)
+    // If we are in the menu (tomarEntrada == false)
     // update the position of the arrow
-    if(digitalRead(2) == HIGH && screen_->getEntered() == false)
+    if(digitalRead(2) == HIGH && screen_->tomarEntrada() == false)
     {
-      screen_->substractPosition();
-      screen_->updateArrow();
+      screen_->restaPosicion();
+      screen_->actualizarFlecha();
     }
-    // If we are inside a submenu (getEntered == true)
-    else if(digitalRead(2) == HIGH && screen_->getEntered() == true){
-      //If we are NOT trying to change the number value (getSubEntered == false)
-      if(screen_->getSubEntered() == false)
-        screen_->substractSubPosition();
+    // If we are inside a submenu (tomarEntrada == true)
+    else if(digitalRead(2) == HIGH && screen_->tomarEntrada() == true){
+      //If we are NOT trying to change the number value (tomarSubEntrada == false)
+      if(screen_->tomarSubEntrada() == false)
+        screen_->restaSubPosicion();
 
       //Draw the submenu
-      switch (screen_->getPosition()) {
+      switch (screen_->tomarPosicion()) {
         case 0:
           //If we are changing the value number
-          if(screen_->getSubEntered() == true){
+          if(screen_->tomarSubEntrada() == true){
             if(motor_->getTarget() > 0)
               motor_->setTarget(motor_->getTarget() - 10);
             else
               motor_->setTarget(motor_->getlength());
           }
           //Draw byPositon submenu
-          screen_->byPosition(motor_->getTarget());
+          screen_->porPosicion(motor_->getTarget());
           break;
         case 1:
           //If we are changing the value number
-          if(screen_->getSubEntered() == true)
+          if(screen_->tomarSubEntrada() == true)
             motor_->setTime(motor_->getTime() - 10, 240);
-          //Draw byTime submenu
-          screen_->byTime(motor_->getTime());
+          //Draw porTiempo submenu
+          screen_->porTiempo(motor_->getTime());
           break;
         case 2:
           //If we are changing the value
-          if(screen_->getSubEntered() == true)
+          if(screen_->tomarSubEntrada() == true)
             motor_->setLoop(!motor_->getLoop());
-          //Draw byLoop menu
-          screen_->byLoop(motor_->getLoop());
+          //Draw porCiclo menu
+          screen_->porCiclo(motor_->getLoop());
           break;
       }
     }
@@ -115,41 +115,41 @@ void Encoder::counterClockWise()
 /*
 *   When the button is pressed
 */
-void Encoder::button(){
+void Encoder::presBoton(){
   //Emergency stop when the motor is moving
-  if(motor_->getWorking()){
-    motor_->setWorking(false);
+  if(motor_->gettrabajando()){
+    motor_->settrabajando(false);
   }
 
   //If we are in the menu
-  if(!screen_->getEntered()){
+  if(!screen_->tomarEntrada()){
     //Draw the submenu
-    screen_->setEntered(true);
-    this->drawSubmenu();
+    screen_->fijarEntrada(true);
+    this->dibujaSubmenu();
   }
   //If we are in the submenu
   else {
     //If back button is selected
-    if(screen_->getSubPosition() == 1){
+    if(screen_->tomarSubPosicion() == 1){
       //Go to menu
-      screen_->setEntered(false);
+      screen_->fijarEntrada(false);
       screen_->menu();
     }
     //If start button is selected
-    else if (screen_->getSubPosition() == 2) {
+    else if (screen_->tomarSubPosicion() == 2) {
       //Start moving and update screen
-      motor_->setWorking(true);
-      screen_->working();
+      motor_->settrabajando(true);
+      screen_->trabajando();
     }
     //If number is selected
     else {
       //Change status
-      if(screen_->getSubPosition() == 0 && !screen_->getSubEntered())
-        screen_->setSubEntered(true);
+      if(screen_->tomarSubPosicion() == 0 && !screen_->tomarSubEntrada())
+        screen_->fijarSubEntrada(true);
       else
-        screen_->setSubEntered(false);
+        screen_->fijarSubEntrada(false);
 
-      this->drawSubmenu();
+      this->dibujaSubmenu();
 
     }
   }
@@ -157,16 +157,16 @@ void Encoder::button(){
 
 }
 
-void Encoder::drawSubmenu(){
-  switch (screen_->getPosition()) {
+void Encoder::dibujaSubmenu(){
+  switch (screen_->tomarPosicion()) {
     case 0:
-      screen_->byPosition(motor_->getTarget());
+      screen_->porPosicion(motor_->getTarget());
       break;
     case 1:
-      screen_->byTime(motor_->getTime());
+      screen_->porTiempo(motor_->getTime());
       break;
     case 2:
-      screen_->byLoop(motor_->getLoop());
+      screen_->porCiclo(motor_->getLoop());
       break;
   }
 }

@@ -1,6 +1,6 @@
 #include "encoderluis.h"
 
-Screen screen;
+screen screen;
 Motor motor(5, 6, 7);
 Encoder encoder(&screen, &motor);
 static boolean rotating=false;
@@ -11,13 +11,13 @@ void rotEncoder()
                  // set the flag to true
 }
 
-void clk()
+void giDer()
 {
-  encoder.clockWise();
+  encoder.giroDerecha();
 }
-void dt()
+void giIzq()
 {
-  encoder.counterClockWise();
+  encoder.giroIzquierda();
 }
 
 
@@ -27,7 +27,7 @@ void setup()
   Serial.begin(115200);
   pinMode(4, INPUT);
   attachInterrupt(0, rotEncoder, CHANGE);
-//  attachInterrupt(1, dt, FALLING);
+//  attachInterrupt(1, giIzq, FALLING);
   screen.set();
   screen.menu();
 }
@@ -35,7 +35,7 @@ void setup()
 void loop() {
   if(digitalRead(4) == LOW)
   {
-    encoder.button();
+    encoder.presBoton();
     delay(10);
   }
 
@@ -44,9 +44,9 @@ void loop() {
    delay(2);  // debounce by waiting 2 milliseconds
               // (Just one line of code for debouncing)
    if (digitalRead(3) == digitalRead(2))  // CCW
-     clk();
+     giDer();
    else                          // If not CCW, then it is CW
-    dt();
+    giIzq();
 
    rotating=false; // Reset the flag
   }
@@ -54,7 +54,7 @@ void loop() {
   motor.move();
   if(motor.getFinished())
   {
-    encoder.drawSubmenu();
+    encoder.dibujaSubmenu();
     motor.setFinished(false);
   }
 
