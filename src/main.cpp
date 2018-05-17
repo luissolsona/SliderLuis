@@ -10,17 +10,6 @@ void rotEncoder()
   rotando=true; // If motion is detected in the rotary encoder,
                  // set the flag to true
 }
-/*
-void giDer()
-{
-  encoder.giroDerecha();
-}
-void giIzq()
-{
-  encoder.giroIzquierda();
-}
-*/
-
 
 void setup()
 {
@@ -44,10 +33,8 @@ void loop() {
    delay(2);  // debounce by waiting 2 milliseconds
               // (Just one line of code for debouncing)
    if (digitalRead(3) == digitalRead(2))  // CCW
-//     giDer();
      encoder.giroDerecha();
    else                          // If not CCW, then it is CW
-//    giIzq();
     encoder.giroIzquierda();
 
    rotando=false; // Reset the flag
