@@ -54,7 +54,7 @@ void Motor::move(){
 
     //If we are at the end
     if(steps_ == 0){
-      //Update the current position
+      //Update the current posicion
       posicion_ = target_;
       //If we are in loop mode
       if(loop_){
@@ -71,7 +71,7 @@ void Motor::move(){
           finished_ = true;
         }
       }
-      //If we are NOT in loop position, it has finished the movement
+      //If we are NOT in loop posicion, it has finished the movement
       else {
         trabajando_ = false;
         finished_ = true;
@@ -88,8 +88,8 @@ int Motor::tomarPosicion(){
   return posicion_;
 }
 
-void Motor::fijarPosicion(int position){
-  posicion_ = position;
+void Motor::fijarPosicion(int posicion){
+  posicion_ = posicion;
 }
 
 int Motor::getTarget(){

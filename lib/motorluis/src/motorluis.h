@@ -5,7 +5,7 @@ class Motor{
     Motor(int stepPin, int dirPin, int enablePin);
     void move();
     int tomarPosicion();
-    void fijarPosicion(int position);
+    void fijarPosicion(int posicion);
     int getTarget();
     void setTarget(int target);
     int getStepTime();

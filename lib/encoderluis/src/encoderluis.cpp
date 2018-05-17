@@ -15,7 +15,7 @@ void Encoder::giroDerecha(){
 //  {
 //    time_ = millis();
     // If we are in the menu (tomarEntrada == false),
-    // update the position of the arrow
+    // update the posicion of the arrow
     if(digitalRead(3) == HIGH && screen_->tomarEntrada() == false){
       screen_->sumaPosicion();
       screen_->actualizarFlecha();
@@ -36,7 +36,7 @@ void Encoder::giroDerecha(){
             else
               motor_->setTarget(0);
           }
-          //Draw porPosicion submenu and update the position number
+          //Draw porPosicion submenu and update the posicion number
           screen_->porPosicion(motor_->getTarget());
           break;
         case 1:
@@ -68,7 +68,7 @@ void Encoder::giroIzquierda()
 //  {
 //    time_ = millis();
     // If we are in the menu (tomarEntrada == false)
-    // update the position of the arrow
+    // update the posicion of the arrow
     if(digitalRead(2) == HIGH && screen_->tomarEntrada() == false)
     {
       screen_->restaPosicion();
