@@ -21,7 +21,7 @@ void screen::set(){
   screen.stroke(255, 112, 67);
   screen.setTextSize(1);
 
-  screen.text("SliderCAM Arduino", 15, 5);
+  screen.text("SliderCAM Arduino", 15, 3);
   screen.line(0, 15, 128, 15);
 }
 
@@ -33,10 +33,13 @@ void screen::menu(){
   screen_->stroke(0, 0, 0);
   screen_->rect(0, 18, 128, 142);
   screen_->stroke(255, 255, 255);
-  screen_->setTextSize(2);
-  screen_->text("Position", 15, 30);
-  screen_->text("Time", 15, 50);
-  screen_->text("Loop", 15, 70);
+  screen_->setTextSize(1);
+  screen_->text("Posicion", 10, 30);
+  screen_->text("Tempo", 10, 40);
+  screen_->text("Ciclo", 10, 50);
+  screen_->text("Motor a 0", 10, 60);
+  screen_->text("Posicion Cabeza", 3, 139);
+  screen_->text("Posicion Slider", 3, 149);
 
   this->actualizarFlecha();
 }
@@ -60,9 +63,9 @@ void screen::trabajando(){
 
 /*
 *   This screen guide the user in order to
-*   set the next position of the slider
+*   set the next posicion of the slider
 */
-void screen::porPosicion(int position){
+void screen::porPosicion(int posicion){
   //Clear menu
   screen_->fill(0, 0, 0);
   screen_->stroke(0, 0, 0);
@@ -70,11 +73,11 @@ void screen::porPosicion(int position){
   //Write the title
   screen_->stroke(255, 255, 255);
   screen_->setTextSize(2);
-  screen_->text("Position", 15, 30);
+  screen_->text("posicion", 15, 30);
 
   //screen animation, it depends on subposicion_ value
   switch (subposicion_) {
-    case 0:   //The position number is selected
+    case 0:   //The posicion number is selected
       this->atrasBoton(false);
       this->inicoBoton(false);
       screen_->fill(255,255,255);
@@ -98,8 +101,8 @@ void screen::porPosicion(int position){
   }
   screen_->setTextSize(3);
   screen_->rect(15, 70, 92, 30);
-  //Get and print the position value
-  String numero_string = String(position);
+  //Get and print the posicion value
+  String numero_string = String(posicion);
   numero_string.toCharArray(numero_, numero_string.length()+1);
   screen_->text(numero_, 30, 75);
 }
@@ -162,7 +165,7 @@ void screen::porCiclo(bool state){
   screen_->setTextSize(2);
   screen_->text("Loop", 15, 30);
 
-  //Get and print the position value
+  //Get and print the posicion value
   switch (subposicion_) {
     case 0:   //The laps value is selected
       this->atrasBoton(false);
@@ -195,15 +198,67 @@ void screen::porCiclo(bool state){
 
 }
 
+
+
+
+void screen::porPosicion2(int posicion2){
+  //Clear menu
+  screen_->fill(0, 0, 0);
+  screen_->stroke(0, 0, 0);
+  screen_->rect(0, 18, 128, 142);
+  //Write the title
+  screen_->stroke(255, 255, 255);
+  screen_->setTextSize(2);
+  screen_->text("posicion", 15, 30);
+
+  //screen animation, it depends on subposicion_ value
+  switch (subposicion_) {
+    case 0:   //The posicion number is selected
+      this->atrasBoton(false);
+      this->inicoBoton(false);
+      screen_->fill(255,255,255);
+
+      if (!subentrada_) screen_->stroke(0, 0, 0);
+      else screen_->stroke(255, 0, 0);
+
+      break;
+    case 1:   //The back button is selected
+      this->atrasBoton(true);
+      this->inicoBoton(false);
+      screen_->noFill();
+      screen_->stroke(255, 255, 255);
+      break;
+    case 2:   //The start button is selected
+      this->atrasBoton(false);
+      this->inicoBoton(true);
+      screen_->noFill();
+      screen_->stroke(255, 255, 255);
+      break;
+  }
+  screen_->setTextSize(3);
+  screen_->rect(15, 70, 92, 30);
+  //Get and print the posicion value
+  String numero_string = String(posicion2);
+  numero_string.toCharArray(numero_, numero_string.length()+1);
+  screen_->text(numero_, 30, 75);
+}
+
+
+
+
+
+
+
+
 int screen::sumaPosicion(){
     posicion_++;
-    if(posicion_ > 2)  posicion_ = 0;
+    if(posicion_ > 3)  posicion_ = 0;
 
 }
 
 int screen::restaPosicion(){
     posicion_--;
-    if(posicion_ < 0)  posicion_ = 2;
+    if(posicion_ < 0)  posicion_ = 3;
 
 }
 
@@ -221,30 +276,41 @@ int screen::restaSubPosicion(){
 
 /*
 *   This method update the arrow
-*   position in the menu screen
+*   posicion in the menu screen
 */
 void screen::actualizarFlecha(){
   switch(posicion_){
     case 0:
       screen_->stroke(0, 0, 0);
-      screen_->text(">", 0, 50);
-      screen_->text(">", 0, 70);
+      screen_->text(">", 3, 40);
+      screen_->text(">", 3, 50);
+      screen_->text(">", 3, 60);
       screen_->stroke(255, 255, 255);
-      screen_->text(">", 0, 30);
+      screen_->text(">", 3, 30);
       break;
     case 1:
       screen_->stroke(0, 0, 0);
-      screen_->text(">", 0, 30);
-      screen_->text(">", 0, 70);
+      screen_->text(">", 3, 30);
+      screen_->text(">", 3, 50);
+      screen_->text(">", 3, 60);
       screen_->stroke(255, 255, 255);
-      screen_->text(">", 0, 50);
+      screen_->text(">", 3, 40);
       break;
     case 2:
       screen_->stroke(0, 0, 0);
-      screen_->text(">", 0, 30);
-      screen_->text(">", 0, 50);
+      screen_->text(">", 3, 30);
+      screen_->text(">", 3, 40);
+      screen_->text(">", 3, 60);
       screen_->stroke(255, 255, 255);
-      screen_->text(">", 0, 70);
+      screen_->text(">", 3, 50);
+      break;
+    case 3:
+      screen_->stroke(0, 0, 0);
+      screen_->text(">", 3, 30);
+      screen_->text(">", 3, 40);
+      screen_->text(">", 3, 50);
+      screen_->stroke(255, 255, 255);
+      screen_->text(">", 3, 60);
       break;
   }
 }
@@ -309,6 +375,6 @@ int screen::tomarSubPosicion(){
   return subposicion_;
 }
 
-void screen::fijarSubPosicion(int position){
-  subposicion_ = position;
+void screen::fijarSubPosicion(int posicion){
+  subposicion_ = posicion;
 }

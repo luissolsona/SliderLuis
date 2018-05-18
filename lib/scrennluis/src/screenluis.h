@@ -11,9 +11,9 @@ class screen{
     void set();
 //    void welcome();
     int tomarPosicion();
-    void fijarPosicion(int position);
+    void fijarPosicion(int posicion);
     int tomarSubPosicion();
-    void fijarSubPosicion(int position);
+    void fijarSubPosicion(int posicion);
     void menu();
     void trabajando();
     void actualizarFlecha();
@@ -27,7 +27,8 @@ class screen{
     bool tomarEntrada();
     void fijarSubEntrada(bool entered);
     bool tomarSubEntrada();
-    void porPosicion(int position);
+    void porPosicion(int posicion);
+    void porPosicion2(int posicion2);
     void porTiempo(long int timing);
     void porCiclo(bool state);
   private:
