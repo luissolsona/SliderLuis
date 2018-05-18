@@ -28,6 +28,7 @@ class screen{
     void fijarSubEntrada(bool entered);
     bool tomarSubEntrada();
     void porPosicion(int posicion);
+    void porPosicion2(int posicion2);
     void porTiempo(long int timing);
     void porCiclo(bool state);
   private:

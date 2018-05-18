@@ -1,51 +1,39 @@
+#include <Arduino.h>
 #include "encoderluis.h"
 
-screen screen;
-Motor motor(5, 6, 7);
-Encoder encoder(&screen, &motor);
+Encoder encoder();
 static boolean rotando=false;
+
+
 
 void rotEncoder()
 {
-  rotando=true; // If motion is detected in the rotary encoder,
-                 // set the flag to true
+  rotando=true; // Si es detectado movimiento en el encoder,
+                 // cambia "rotando" a TRUE
 }
+
+
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(4, INPUT);
   attachInterrupt(0, rotEncoder, CHANGE);
-//  attachInterrupt(1, giIzq, FALLING);
-  screen.set();
-  screen.menu();
 }
 
-void loop() {
-  if(digitalRead(4) == LOW)
-  {
-    encoder.presBoton();
-    delay(10);
-  }
 
+
+void loop()
+{
   while(rotando)
-  {
-   delay(2);  // debounce by waiting 2 milliseconds
-              // (Just one line of code for debouncing)
-   if (digitalRead(3) == digitalRead(2))  // CCW
-     encoder.giroDerecha();
-   else                          // If not CCW, then it is CW
-    encoder.giroIzquierda();
+    {
+     delay(25);  // debounce esperando 2 milis
+                // (Solo una linea de codigo)
+     if (digitalRead(3) == digitalRead(2))  // CCW
+      encoder::giroDerecha();
+     else                          // Si no es CCW, entonces es CW
+      encoder::giroIzquierda();
 
-   rotando=false; // Reset the flag
+     rotando=false; // Reset the flag
+    }
   }
-
-  motor.move();
-  if(motor.getFinished())
-  {
-    encoder.dibujaSubmenu();
-    motor.setFinished(false);
-  }
-
-
-}

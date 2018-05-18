@@ -198,6 +198,58 @@ void screen::porCiclo(bool state){
 
 }
 
+
+
+
+void screen::porPosicion2(int posicion2){
+  //Clear menu
+  screen_->fill(0, 0, 0);
+  screen_->stroke(0, 0, 0);
+  screen_->rect(0, 18, 128, 142);
+  //Write the title
+  screen_->stroke(255, 255, 255);
+  screen_->setTextSize(2);
+  screen_->text("posicion", 15, 30);
+
+  //screen animation, it depends on subposicion_ value
+  switch (subposicion_) {
+    case 0:   //The posicion number is selected
+      this->atrasBoton(false);
+      this->inicoBoton(false);
+      screen_->fill(255,255,255);
+
+      if (!subentrada_) screen_->stroke(0, 0, 0);
+      else screen_->stroke(255, 0, 0);
+
+      break;
+    case 1:   //The back button is selected
+      this->atrasBoton(true);
+      this->inicoBoton(false);
+      screen_->noFill();
+      screen_->stroke(255, 255, 255);
+      break;
+    case 2:   //The start button is selected
+      this->atrasBoton(false);
+      this->inicoBoton(true);
+      screen_->noFill();
+      screen_->stroke(255, 255, 255);
+      break;
+  }
+  screen_->setTextSize(3);
+  screen_->rect(15, 70, 92, 30);
+  //Get and print the posicion value
+  String numero_string = String(posicion2);
+  numero_string.toCharArray(numero_, numero_string.length()+1);
+  screen_->text(numero_, 30, 75);
+}
+
+
+
+
+
+
+
+
 int screen::sumaPosicion(){
     posicion_++;
     if(posicion_ > 3)  posicion_ = 0;
