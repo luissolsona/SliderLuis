@@ -21,7 +21,7 @@ void screen::set(){
   screen.stroke(255, 112, 67);
   screen.setTextSize(1);
 
-  screen.text("SliderCAM Arduino", 15, 5);
+  screen.text("SliderCAM Arduino", 15, 3);
   screen.line(0, 15, 128, 15);
 }
 
@@ -33,10 +33,13 @@ void screen::menu(){
   screen_->stroke(0, 0, 0);
   screen_->rect(0, 18, 128, 142);
   screen_->stroke(255, 255, 255);
-  screen_->setTextSize(2);
-  screen_->text("posicion", 15, 30);
-  screen_->text("Time", 15, 50);
-  screen_->text("Loop", 15, 70);
+  screen_->setTextSize(1);
+  screen_->text("Posicion", 10, 30);
+  screen_->text("Tempo", 10, 40);
+  screen_->text("Ciclo", 10, 50);
+  screen_->text("Motor a 0", 10, 60);
+  screen_->text("Posicion Cabeza", 3, 139);
+  screen_->text("Posicion Slider", 3, 149);
 
   this->actualizarFlecha();
 }
@@ -197,13 +200,13 @@ void screen::porCiclo(bool state){
 
 int screen::sumaPosicion(){
     posicion_++;
-    if(posicion_ > 2)  posicion_ = 0;
+    if(posicion_ > 3)  posicion_ = 0;
 
 }
 
 int screen::restaPosicion(){
     posicion_--;
-    if(posicion_ < 0)  posicion_ = 2;
+    if(posicion_ < 0)  posicion_ = 3;
 
 }
 
@@ -227,24 +230,35 @@ void screen::actualizarFlecha(){
   switch(posicion_){
     case 0:
       screen_->stroke(0, 0, 0);
-      screen_->text(">", 0, 50);
-      screen_->text(">", 0, 70);
+      screen_->text(">", 3, 40);
+      screen_->text(">", 3, 50);
+      screen_->text(">", 3, 60);
       screen_->stroke(255, 255, 255);
-      screen_->text(">", 0, 30);
+      screen_->text(">", 3, 30);
       break;
     case 1:
       screen_->stroke(0, 0, 0);
-      screen_->text(">", 0, 30);
-      screen_->text(">", 0, 70);
+      screen_->text(">", 3, 30);
+      screen_->text(">", 3, 50);
+      screen_->text(">", 3, 60);
       screen_->stroke(255, 255, 255);
-      screen_->text(">", 0, 50);
+      screen_->text(">", 3, 40);
       break;
     case 2:
       screen_->stroke(0, 0, 0);
-      screen_->text(">", 0, 30);
-      screen_->text(">", 0, 50);
+      screen_->text(">", 3, 30);
+      screen_->text(">", 3, 40);
+      screen_->text(">", 3, 60);
       screen_->stroke(255, 255, 255);
-      screen_->text(">", 0, 70);
+      screen_->text(">", 3, 50);
+      break;
+    case 3:
+      screen_->stroke(0, 0, 0);
+      screen_->text(">", 3, 30);
+      screen_->text(">", 3, 40);
+      screen_->text(">", 3, 50);
+      screen_->stroke(255, 255, 255);
+      screen_->text(">", 3, 60);
       break;
   }
 }

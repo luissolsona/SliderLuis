@@ -1,5 +1,6 @@
 #include "screenluis.h"
 #include "motorluis.h"
+#include <AccelStepper.h>
 
 class Encoder{
   public:
